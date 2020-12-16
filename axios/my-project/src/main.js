@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-
+Vue.prototype.$qs = qs
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 
