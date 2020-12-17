@@ -25,14 +25,40 @@ axios.defaults.headers["Content-Type"] = "application/x-www-from-urlencoded"
 3.在main.js中全局引入： Vue.prototype.$qs = qs； */
 axios.defaults.transformRequest = data => qs.stringify(data); //只对post请求有作用   
 
-
-
-axios.get(url, {
-    params: {
-        
-    }
-}).then(res => {
+// 接受服务器返回的toke。每一次向服务器发请求，我们应该把token带上
+instance.interceptors.request.use(config => {
+     let token = localStorage.getItem('token');
+    token && (config.headers.Authorization = token);
+    return config
+}, error => {
+        return Promise.reject(error)
+})
+// 
+instance.interceptors.response.use(response => {
+    return response.data
     
-}).catch(error => {
-    
-});
+}, error => {
+        let { } = error;
+        if (response) {
+            // =>服务器返回结果
+            switch (response.status) {
+                case 401: //=>登录权限
+                    break;
+                case 403://=>token过期
+                    break;
+                case 404://找不到页面
+                    break;
+        }
+        } else {
+            // =>服务器连结果都没有返回
+            if (!window.navigator.onLine) {
+                //断网处理
+                return
+             }
+           return Promise.reject(error)
+        }
+}
+ 
+)
+
+export default axios;
