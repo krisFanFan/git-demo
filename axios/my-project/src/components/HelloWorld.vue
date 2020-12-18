@@ -1,20 +1,40 @@
 <template>
   <div class="hello">
+  <slot1 >
+   <div slot="lessdemo">首页</div>
+   <div  slot="lessdemo1">hellow</div>
+   <div  slot="lessdemo2">退出登录</div>
+ </slot1>
     <button @click="gethandle">发送get请求</button>
     <button @click="posthandle">发送poat请求</button>
     <button @click="gethandleByutils">调用封装的get请求</button>
+     <button @click="jump" slot="lessdemo">lessdemo</button>
+     <button>lessdemo1</button>
+     <button>lessdemo2</button>
+     
   </div>
 </template>
 
 <script>
+
 import axios from "axios";
 import { get } from "../utils/request";
+import slot1 from "../components/slot1.vue";
+
 export default {
   name: "HelloWorld",
   data() {
     return {};
   },
+   components:{
+    slot1
+  },
   methods: {
+    jump(){
+       this.$router.push({
+         name:"lessdemo"
+       })
+    },
     gethandle() {
       /*  axios.get 发起get请求
        参数一 表示请求地址
