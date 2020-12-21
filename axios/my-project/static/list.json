@@ -1,0 +1,22 @@
+[
+  {
+    "text": "吴亦凡",
+    "age": 30,
+    "vip": true
+  },
+  {
+    "text": "肆伍",
+    "age": 2,
+    "vip": true
+  },
+  {
+    "text": "娜娜",
+    "age": 23,
+    "vip": false
+  },
+  {
+    "text": "凡凡",
+    "age": 31,
+    "vip": false
+  }
+]

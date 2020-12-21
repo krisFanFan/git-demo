@@ -1,39 +1,79 @@
 <template>
   <div class="hello">
-  <slot1 >
-   <div slot="lessdemo">首页</div>
-   <div  slot="lessdemo1">hellow</div>
-   <div  slot="lessdemo2">退出登录</div>
- </slot1>
+    <!-- 把父组件的值传给子组件 -->
+    <slot1 :futoson="value" @sendValueToParent="getValueFromChild">
+      <div slot="lessdemo">首页</div>
+      <div slot="lessdemo1">hellow</div>
+      <div slot="lessdemo2">退出登录</div>
+    </slot1>
     <button @click="gethandle">发送get请求</button>
     <button @click="posthandle">发送poat请求</button>
     <button @click="gethandleByutils">调用封装的get请求</button>
-     <button @click="jump" slot="lessdemo">lessdemo</button>
-     <button>lessdemo1</button>
-     <button>lessdemo2</button>
-     
+    <button @click="jump" slot="lessdemo">lessdemo</button>
+    <button>lessdemo1</button>
+    <button>lessdemo2</button>
+    <span>{{ value1 }}</span>
   </div>
 </template>
 
 <script>
-
-import axios from "axios";
-import { get } from "../utils/request";
-import slot1 from "../components/slot1.vue";
+import axios from 'axios'
+import { get } from '../utils/request'
+import slot1 from '../components/slot1.vue'
+import less from '../common/lessdemo2'
+import bus from '../utils/bus.js'
 
 export default {
-  name: "HelloWorld",
+  name: 'HelloWorld',
   data() {
-    return {};
+    return {
+      list: [],
+      areaData: [],
+      value: '父组件的值100',
+      value1: '',
+      title: 'helloword组件'
+    }
   },
-   components:{
-    slot1
+  created() {
+    this.hand()
+    // 在调用的页面激活mutations中的方法
+    this.$store.dispatch('allData')
+  },
+  computed: {
+    //在需要引用的页面，通过 $store.state.data 共享过来数据就可以使用了
+    data() {
+      return this.$store.state.data
+      console.log(this.$store.state.data)
+    }
+  },
+  components: {
+    slot1,
+    less
   },
   methods: {
-    jump(){
-       this.$router.push({
-         name:"lessdemo"
-       })
+    //接收子组件的值
+    getValueFromChild(value1, value2, value3) {
+      this.value1 = value1
+      console.log(value1)
+      // value2: 可以传多个值
+      // value3: false
+      // value4: true
+    },
+
+    jump() {
+      // 向兄弟组件传值
+      bus.$emit('message', this.title)
+
+      this.$router.push({
+        name: 'lessdemo'
+      })
+    },
+    //  取出自定义json的值
+    hand() {
+      axios.get('/static/list.json').then(res => {
+        this.areaData = res.data //res.data可根据你的数据格式来，看需求
+        console.log(this.areaData) //打印看看数据吧
+      })
     },
     gethandle() {
       /*  axios.get 发起get请求
@@ -46,7 +86,7 @@ export default {
        例如：https://api.cat-shop.penkuoer.com/api/vi/products?page=1&per=3
         */
       axios
-        .get("https://elm.cangdu.org/shopping/restaurants", {
+        .get('https://elm.cangdu.org/shopping/restaurants', {
           params: {
             latitude: 31.22969,
             longitude: 121.22299
@@ -54,11 +94,11 @@ export default {
           headers: {}
         })
         .then(res => {
-          console.log(res);
+          console.log(res)
         })
         .catch(function(error) {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     // ————————————————————————————————————————————————
     posthandle() {
@@ -71,10 +111,10 @@ export default {
 
       axios
         .post(
-          "https://elm.cangdu.org/v2/login",
+          'https://elm.cangdu.org/v2/login',
           {
-            user: "daming",
-            pw: "1111"
+            user: 'daming',
+            pw: '1111'
           },
           {
             // params可不写
@@ -85,24 +125,22 @@ export default {
           }
         )
         .then(res => {
-          console.log(res);
-          const { success, message } = res.data;
-          console.log(message);
+          console.log(res)
+          const { success, message } = res.data
+          console.log(message)
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // ————————————————————————————————————————————————————————————
     gethandleByutils() {
-      get("shopping/restaurants", {}).then(res => {
-        console.log(res);
-      });
+      get('shopping/restaurants', {}).then(res => {
+        console.log(res)
+      })
     }
   }
-};
+}
 </script>
 
-
-
-<style  scoped lang="less"></style>
+<style scoped lang="less"></style>
