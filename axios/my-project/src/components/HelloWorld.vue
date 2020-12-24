@@ -22,7 +22,6 @@ import { get } from '../utils/request'
 import slot1 from '../components/slot1.vue'
 import less from '../common/lessdemo2'
 import bus from '../utils/bus.js'
-
 export default {
   name: 'HelloWorld',
   data() {

@@ -4,12 +4,16 @@ import Vue from 'vue'
 import App from './App'
 import store from './store'
 import router from './router'
+import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import less from 'less'
 import VueRouter from 'vue-router'
 Vue.prototype.$axios = axios
-import Vuex from 'vuex'
+import echarts from 'echarts'
+import 'echarts/extension/bmap/bmap'
+
+Vue.prototype.$echarts = echarts
 
 Vue.use(Vuex)
 Vue.use(VueRouter)

@@ -17,7 +17,7 @@ instance.interceptors.request.use(
     function (err) {
         return Promise.reject(err);
     }
-)
+)   
 // 全局的响应拦截 所有网络请求返回数据之后都会执行此方法
 instance.interceptors.response.use(
     function (response) {
